@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -16,10 +18,17 @@ class GameScreen implements Screen {
 
     //Graphics
     private SpriteBatch batch;
-//    private Texture backGround;
-    private Texture[] backGrounds;
+    private TextureAtlas textureAtlas;
+
+    private TextureRegion[] backGrounds;
+    private float backgroundHeight;
+
+    private TextureRegion playerShipTextureRegion, playerShieldTextureRegion,
+            enemyShipTextureRegion, enemyShieldTextureRegion,
+            playerLaserTextureRegion, enemyLaserTextureRegion;
+
+
     //Timing
-//    private int backgrounfOffset;
     private float[] backgroundOffsets = {0,0,0,0,};
     private float backgroundMayScrollingSpeed;
 
@@ -27,20 +36,25 @@ class GameScreen implements Screen {
     private final int WORLD_WIDTH = 72;
     private final int WORLD_HEIGHT = 128;
 
+    //Game objects
+
+
     GameScreen(){
 
         camera = new OrthographicCamera();
         viewport = new StretchViewport(WORLD_WIDTH, WORLD_HEIGHT, camera);
 
-//        backGround = new Texture("darkPurpleStarscape.png");
-//        backgrounfOffset = 0;
+    //Setting up the texture atlas
+        textureAtlas = new TextureAtlas("images.atlas");
 
-        backGrounds = new Texture[4];
-        backGrounds[0] = new Texture("Starscape00.png");
-        backGrounds[1] = new Texture("Starscape01.png");
-        backGrounds[2] = new Texture("Starscape02.png");
-        backGrounds[3] = new Texture("Starscape03.png");
+    //Setting up the background
+        backGrounds = new TextureRegion[4];
+        backGrounds[0] = textureAtlas.findRegion("Starscape00");
+        backGrounds[1] = textureAtlas.findRegion("Starscape01");
+        backGrounds[2] = textureAtlas.findRegion("Starscape02");
+        backGrounds[3] = textureAtlas.findRegion("Starscape03");
 
+        backgroundHeight = WORLD_HEIGHT *2;
         backgroundMayScrollingSpeed = (float)WORLD_HEIGHT / 4;
 
         batch = new SpriteBatch();
